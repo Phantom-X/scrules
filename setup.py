@@ -7,14 +7,14 @@
 
 from __future__ import print_function
 from setuptools import setup, find_packages
-import scrules
+from scrules import __version__
 
 with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
 
 setup(
     name="scrules",
-    version=scrules.__version__,
+    version=__version__,
     author="phantom",
     author_email="2909981736@qq.com",
     description="A library that mines association rules between genes and mines regulatory networks through the association rule algorithm fp-growth",
