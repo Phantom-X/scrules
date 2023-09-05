@@ -10,9 +10,9 @@ import igraph as ig
 import pandas as pd
 from time import time
 import matplotlib.pyplot as plt
-from utils.DataLoader import load_sc_transactions_data
-from utils.eval_calculate import calculate_eval_vectorization
-from utils.RegNet import RegNet
+from .utils.DataLoader import load_sc_transactions_data
+from .utils.eval_calculate import calculate_eval_vectorization
+from .utils.RegNet import RegNet
 
 
 class ScRules:
