@@ -5,7 +5,6 @@
 @Email: 2909981736@qq.com
 """
 
-from __future__ import print_function
 from setuptools import setup, find_packages
 __version__ = '1.0.2'
 
