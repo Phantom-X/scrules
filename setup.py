@@ -29,7 +29,8 @@ setup(
         "pandas",
         "matplotlib",
         "pymysql",
-        "sqlalchemy"
+        "sqlalchemy",
+        "requests"
     ],
     classifiers=[
         "Topic :: Scientific/Engineering :: Mathematics",
