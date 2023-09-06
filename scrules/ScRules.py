@@ -5,7 +5,6 @@
 @Email: 2909981736@qq.com
 """
 import os
-
 import fim
 import igraph as ig
 import pandas as pd
