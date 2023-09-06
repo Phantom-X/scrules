@@ -4,12 +4,14 @@
 @Time:2023/9/4 7:59
 @Email: 2909981736@qq.com
 """
+import os
 
 import fim
 import igraph as ig
 import pandas as pd
 from time import time
 import matplotlib.pyplot as plt
+import requests
 from .utils.DataLoader import load_sc_transactions_data
 from .utils.eval_calculate import calculate_eval_vectorization
 from .utils.RegNet import RegNet
@@ -81,11 +83,26 @@ class ScRules:
         """
         t1 = time()
         try:
-            from .data.net import reactome, regnewworks, consensus
-            matched_network_df = pd.DataFrame(eval(matched_network))
-        except TypeError as TE:
-            print(str(TE), 'Please enter one of ‘consensus’, ‘reactome’, ‘regnewworks’ '
-                           'for the matched_network parameter')
+            if not os.path.exists(f"./data/{matched_network}.tsv"):
+                url = f'http://eptohubgene.litjxxy.com/downloads/{matched_network}.tsv'
+                filename = url.split('/')[-1]
+                header = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69'}
+                resp = requests.get(url, headers=header)
+                if resp.status_code == 200:
+                    with open(f"./data/{filename}", 'wb') as file:
+                        file.write(resp.content)
+                        print(f'{filename} saved successfully')
+                else:
+                    print(f'{filename} saved failed')
+                    return
+
+            matched_network_df = pd.read_csv(f'./data/{matched_network}.tsv', delimiter='\t', header=None,
+                                             names=['antecedents', 'consequents'])
+        except Exception as e:
+            print(str(e))
+            print("Please enter one of ‘consensus’, ‘reactome’, ‘regnewworks’ for the matched_network parameter")
+            print("Please turn off proxy")
             return
 
         matched_rules_df = pd.merge(rules_df, matched_network_df, on=['antecedents', 'consequents'], how='inner')
