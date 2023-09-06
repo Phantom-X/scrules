@@ -7,7 +7,7 @@
 
 from __future__ import print_function
 from setuptools import setup, find_packages
-from scrules import __version__
+__version__ = '1.0.2'
 
 with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
