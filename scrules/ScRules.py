@@ -81,15 +81,11 @@ class ScRules:
         """
         t1 = time()
         try:
-            matched_network_df = pd.read_csv(f'./data/{matched_network}/edge_list_symbole.tsv', delimiter='\t',
-                                             header=None, names=['antecedents', 'consequents'])
+            from .data.net import reactome, regnewworks, consensus
+            matched_network_df = pd.DataFrame(eval(matched_network))
         except TypeError as TE:
             print(str(TE), 'Please enter one of ‘consensus’, ‘reactome’, ‘regnewworks’ '
                            'for the matched_network parameter')
-            return
-        except FileNotFoundError as FNE:
-            print(str(FNE), 'Please enter one of ‘consensus’, ‘reactome’, ‘regnewworks’ '
-                            'for the matched_network parameter')
             return
 
         matched_rules_df = pd.merge(rules_df, matched_network_df, on=['antecedents', 'consequents'], how='inner')
