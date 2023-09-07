@@ -82,21 +82,23 @@ class ScRules:
         """
         t1 = time()
         try:
-            if not os.path.exists(f"./data/{matched_network}.tsv"):
+            package_path = os.path.dirname(os.path.abspath(__file__))
+            matched_network_path = os.path.join(package_path, "data", f"{matched_network}.tsv")
+
+            if not os.path.exists(matched_network_path):
                 url = f'http://eptohubgene.litjxxy.com/downloads/{matched_network}.tsv'
-                filename = url.split('/')[-1]
                 header = {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69'}
                 resp = requests.get(url, headers=header)
                 if resp.status_code == 200:
-                    with open(f"./data/{filename}", 'wb') as file:
+                    with open(matched_network_path, 'wb') as file:
                         file.write(resp.content)
-                        print(f'{filename} saved successfully')
+                        print(f'{matched_network}.tsv saved successfully')
                 else:
-                    print(f'{filename} saved failed')
+                    print(f'{matched_network}.tsv saved failed')
                     return
 
-            matched_network_df = pd.read_csv(f'./data/{matched_network}.tsv', delimiter='\t', header=None,
+            matched_network_df = pd.read_csv(matched_network_path, delimiter='\t', header=None,
                                              names=['antecedents', 'consequents'])
         except Exception as e:
             print(str(e))
