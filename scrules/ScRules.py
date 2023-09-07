@@ -93,9 +93,9 @@ class ScRules:
                 if resp.status_code == 200:
                     with open(matched_network_path, 'wb') as file:
                         file.write(resp.content)
-                        print(f'{matched_network}.tsv saved successfully')
+                        print(f'{matched_network}.tsv downloads successfully')
                 else:
-                    print(f'{matched_network}.tsv saved failed')
+                    print(f'{matched_network}.tsv downloads failed')
                     return
 
             matched_network_df = pd.read_csv(matched_network_path, delimiter='\t', header=None,

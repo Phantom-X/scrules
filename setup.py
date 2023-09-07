@@ -6,7 +6,7 @@
 """
 
 from setuptools import setup, find_packages
-__version__ = '1.0.5'
+__version__ = '1.0.6'
 
 with open("README.md", "r", encoding='utf-8') as fh:
     long_description = fh.read()
