@@ -14,6 +14,8 @@ import requests
 from .utils.DataLoader import load_sc_transactions_data
 from .utils.eval_calculate import calculate_eval_vectorization
 from .utils.RegNet import RegNet
+from .utils.draw import draw_marker_gene_expression
+from collections import Counter
 
 
 class ScRules:
@@ -126,7 +128,7 @@ class ScRules:
                             indicator=True)
 
         not_merched_rules_df = merge_df.query("_merge != 'both'")
-        not_merched_rules_df.drop(columns=['_merge'])
+        not_merched_rules_df = not_merched_rules_df.drop(columns=['_merge'])
         to_be_drop = list()
         to_be_rename = dict()
         for col_name in not_merched_rules_df.columns:
@@ -202,7 +204,7 @@ class ScRules:
         t1 = time()
         regnet = RegNet()
         for rule_df in rules_df:
-            regnet.add_edge(str(rule_df['antecedents']), str(rule_df['consequents']))
+            regnet.add_edge(rule_df[0], rule_df[1])
         deepest_regulatory_networks_by_start_gene = regnet.find_regulatory_network(start_gene)
         print(deepest_regulatory_networks_by_start_gene)
 
@@ -252,3 +254,17 @@ class ScRules:
         plt.savefig(savepath)
         print("Picture saved successfully")
         plt.show()
+
+    def compute_marker_gene_ratio(self, marker_genes, savepath):
+
+        counter = Counter()
+        for row in self.data:
+            counter.update(row)
+        marker_genes_Expression_dic = {'marker_genes': [], 'Expression': []}
+        for marker_gene in marker_genes:
+            Expression = counter[marker_gene]
+            marker_genes_Expression_dic['marker_genes'].append(marker_gene)
+            marker_genes_Expression_dic['Expression'].append(Expression)
+
+        draw_marker_gene_expression(marker_genes_Expression_dic, savepath)
+        print("Picture saved successfully")
