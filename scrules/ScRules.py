@@ -262,6 +262,7 @@ class ScRules:
         :param savepath:The path to save the picture
         :return:none
         """
+        cell_count = len(self.data)
         counter = Counter()
         for row in self.data:
             counter.update(row)
@@ -269,7 +270,7 @@ class ScRules:
         for marker_gene in marker_genes:
             Expression = counter[marker_gene]
             marker_genes_Expression_dic['marker_genes'].append(marker_gene)
-            marker_genes_Expression_dic['Expression'].append(Expression)
+            marker_genes_Expression_dic['Expression'].append(round(Expression/cell_count, 3))
 
         draw_marker_gene_expression(marker_genes_Expression_dic, savepath)
         print("Picture saved successfully")
